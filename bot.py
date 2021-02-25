@@ -1,3 +1,5 @@
+# :SAD:D
+
 from aiogram import *
 from aiogram.types import ParseMode
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
