@@ -4,8 +4,10 @@ from aiogram import *
 from aiogram.types import ParseMode
 from aiogram.contrib.fsm_storage.memory import MemoryStorage
 import asyncio
+
+from db import Database
 from keys import TOKEN
-from tools import icon_number, Response, time, Database, Link
+from tools import icon_number, help_msg, Response, time, Link
 
 # Initialize Database object
 db = Database('wizard_test')
@@ -24,6 +26,7 @@ dp = Dispatcher(bot, storage=storage)
 
 # BOT SETTINGS
 ADMINS = ['blacktyg3r']
+
 COMMANDS = ['help', 'add', 'remove', 'delete', 'del',
             'done', 'tick', 'liked', 'REMOVE_ALL']
 short_time = 20
@@ -33,15 +36,8 @@ last_show_msg = 0
 @dp.message_handler(commands=['help'])
 async def help_command(message: types.Message):
     reply = Response('🧙🏼‍♂', "WednesdayWizard! 💬")
+    lines = help_msg()
     lines = [
-        "In order to add magic links type:",
-        f"<code> /add [here goes magic link]</code>",
-        f"The real magic starts with spell:",
-        f"<code> /show [number of links, default 5]</code>",
-        f"Please let us know you liked the link:",
-        f"<code> /done [ID, ID2, etc]</code>",
-        f"Other spells:",
-        f"<code> /delete [ID]</code>",
         reply.separator
         ]
     reply.lines = lines

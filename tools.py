@@ -8,6 +8,7 @@ class Response:
     """
     Class for creating bot responses on telegram chat
     """
+
     def __init__(self, icon, title):
         self.title = f"<b>{icon} {title}</b>\n"
         self.separator = f"<b>---------------------------------------------</b>\n"
@@ -47,97 +48,18 @@ class Link:
         return f"{self.author}: {self.url}"
 
 
-class Database:
-    """
-    Class to store data from bot app, links, users etc
-    """
-    def __init__(self, name):
-        self.file = f'{name}.pickle'
-        if not os.path.exists(self.file):
-            self.table = {
-                'info': {'created': time(pattern="%d/%m%y %H:%M:%S")},
-                'links': [], 'users': [], 'admins': []
-                }
-            self.save(self.table)
-
-    def save(self, data):
-        """
-        Save to file pickle object of database
-        """
-        with open(self.file, 'wb') as file:
-            pickle.dump(data, file, protocol=pickle.HIGHEST_PROTOCOL)
-
-    def add(self, table, row):
-        """
-        Add Link object to database
-        """
-        db_snapshot = self.get()
-        if isinstance(row, Link):
-            link = self.find_row(row)
-            if not link[0]:
-                db_snapshot[table].append(row)
-                self.save(db_snapshot)
-                return True
-            else:
-                return False
-        else:
-            return False
-
-    def update_link(self, row):
-        """
-        Update Link object values if present in database
-        """
-        db_snapshot = self.get()
-        link = self.find_row(row)
-        if link[0]:
-            db_snapshot['links'][link[2]] = row
-            self.save(db_snapshot)
-
-    def remove_link(self, row):
-        """
-        Remove Link object with given ID (list index)
-        """
-        db_snapshot = self.get()
-        link = self.find_row(row)
-        # print(link)
-        if link[0]:
-            db_snapshot['links'].remove(db_snapshot['links'][link[2]])
-            self.save(db_snapshot)
-
-    def remove_all(self):
-        """
-        Remove all Link objects from database
-        """
-        db_snapshot = self.get()
-        db_snapshot['links'] = []
-        self.save(db_snapshot)
-
-    def get_links(self):
-        return self.get()['links']
-
-    def get(self):
-        """
-        Return pickled database as dict
-        """
-        with open(self.file, 'rb') as handle:
-            return pickle.load(handle)
-
-    def find_row(self, row):
-        """
-        Look for object in database that match input object,
-        Return [bool, object, index]
-        """
-        db_snapshot = self.get()
-        for i, link in enumerate(db_snapshot['links']):
-            for k, v in vars(link).items():
-                if k == 'url':
-                    if v == row.url:
-                        print('duplicat found: ', link)
-                        return [True, link, i]
-        return [False]
-
-    def __repr__(self):
-        return self.file
+def help_msg():
+    r = [
+        "In order to add magic links type:",
+        f"<code> /add [here goes magic link]</code>",
+        f"The real magic starts with spell:",
+        f"<code> /show [number of links, default 5]</code>",
+        f"Please let us know you liked the link:",
+        f"<code> /done [ID, ID2, etc]</code>",
+        f"Other spells:",
+        f"<code> /delete [ID]</code>",
+        ]
+    return r
 
 
 def time(pattern="%d/%m %H:%M"):
@@ -159,15 +81,3 @@ def icon_number(num):
             n_nums.append(n[int(num[x])])
         return "".join(n_nums)
 
-
-def t_s(timestamp):
-    """ Convert different timestamps to datetime object"""
-    if len(str(timestamp)) == 13:
-        time = datetime.datetime.fromtimestamp(int(timestamp) / 1000)
-    elif len(str(timestamp)) == 10:
-        time = datetime.datetime.fromtimestamp(int(timestamp))
-    elif len(str(timestamp)) == 16:
-        time = datetime.datetime.fromtimestamp(int(timestamp / 1000000))
-    elif len(str(timestamp)) == 12:
-        time = datetime.datetime.fromtimestamp(int(timestamp.split('.')[0]))
-    return time
