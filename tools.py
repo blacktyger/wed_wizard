@@ -50,14 +50,17 @@ class Link:
 
 def help_msg():
     r = [
-        "In order to add magic links type:",
-        f"<code> /add [here goes magic link]</code>",
-        f"The real magic starts with spell:",
-        f"<code> /show [number of links, default 5]</code>",
-        f"Please let us know you liked the link:",
-        f"<code> /done [ID, ID2, etc]</code>",
-        f"Other spells:",
-        f"<code> /delete [ID]</code>",
+        "<code>In order to add magic links type:</code>",
+        f"/add [here goes magic link]",
+        f"<code>The real magic starts with spell:</code>",
+        f"/show",
+        f"<code>Please like the magic links:</code>",
+        f"/like LINK_ID",
+        f"<code>Other spells:</code>",
+        f"/delete LINK_ID",
+        f"/show number (default is 5)",
+        f"/like LINK_ID1 LINK_ID2 (You can chain IDs)",
+        f"\n<a href='https://epicfundme.com/109'>Show some love @ EpicFundMe </a>",
         ]
     return r
 
@@ -80,4 +83,18 @@ def icon_number(num):
         for x in range(len(num)):
             n_nums.append(n[int(num[x])])
         return "".join(n_nums)
+
+
+class User:
+    """
+    Class manage User objects accounts
+    """
+    def __init__(self, id, username, is_bot, first_name):
+        self.id = id
+        self.first_name = first_name
+        self.username = username
+        self.is_bot = is_bot
+
+
+
 
