@@ -50,17 +50,26 @@ class Link:
 
 def help_msg():
     r = [
-        "<code>In order to add magic links type:</code>",
-        f"/add [here goes magic link]",
-        f"<code>The real magic starts with spell:</code>",
+        f"",
+        f"🌐♾♾♾♾♾♾♾♾♾♾♾♾♾♾♾🌐",
+        f"<b>TO ADD MAGIC LINKS SIMPLE TYPE /ADD LINK</b>",
+        f"/add https://twitter.com/EpicCashTech",
+        f"",
+        f"<b>DELETE LINK WITH SPELL: /DELETE LINK_ID:</b>",
+        f"/DELETE 2",
+        f"",
+        f"<b>SHOW MAGIC LINKS ADDED BY WIZARDS: /SHOW</b>",
         f"/show",
-        f"<code>Please like the magic links:</code>",
-        f"/like LINK_ID",
-        f"<code>Other spells:</code>",
-        f"/delete LINK_ID",
-        f"/show number (default is 5)",
-        f"/like LINK_ID1 LINK_ID2 (You can chain IDs)",
-        f"\n<a href='https://epicfundme.com/109'>Show some love @ EpicFundMe </a>",
+        f"",
+        f"<b>TO SHOW LOVE AND COMMITMENT: /LIKE LINK_ID</b>",
+        f"/like 6",
+        f"",
+        f"<b>TIPS AND TRICKS:</b>",
+        f"YOU CAN CHAIN LINK_ID WITH /LIKE AND /DELETE SPELL",
+        f"/like 2 3 5 6 7 or /delete 1 2 3 | NUMBERS ARE LINK_ID's",
+        f"🌐♾♾♾♾♾♾♾♾♾♾♾♾♾♾♾🌐",
+        f"",
+        f"<a href='https://epicfundme.com/109'>Show some love @ EpicFundMe </a>",
         ]
     return r
 
@@ -89,11 +98,20 @@ class User:
     """
     Class manage User objects accounts
     """
-    def __init__(self, id, username, is_bot, first_name):
+    def __init__(self, id, username, is_bot, first_name,
+                 last_name, language_code):
         self.id = id
         self.first_name = first_name
-        self.username = username
+        self.last_name = last_name
+        self.language_code = language_code
+        if username:
+            self.username = username
+        else:
+            self.username = self.first_name
         self.is_bot = is_bot
+        self.links_added = 0
+        self.likes_given = 0
+        self.balance = 0
 
 
 
